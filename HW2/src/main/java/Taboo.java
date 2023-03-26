@@ -25,10 +25,13 @@ public class Taboo<T> {
 	 * @return elements which should not follow the given element
 	 */
 	public Set<T> noFollow(T elem) {
+		int len = lis.size();
 		 Set<T> set = new HashSet<>();
-		 for(int i=0;i<lis.size()-1;i++){
-			 if(lis.get(i).equals(elem)){
-				 set.add(lis.get(i+1));
+		 for(int i=0;i<len-1;i++){
+			 if(lis.get(i)!=null) {
+				 if (lis.get(i).equals(elem) && lis.get(i + 1) != null) {
+					 set.add(lis.get(i + 1));
+				 }
 			 }
 		 }
 		return set; // YOUR CODE HERE
@@ -40,6 +43,7 @@ public class Taboo<T> {
 	 * @param list collection to reduce
 	 */
 	public void reduce(List<T> list) {
+
 		int len = list.size();
 		for(int i = 0; i < len-1; i++){
 			for(int j = 0; j < lis.size()-1; j++){
