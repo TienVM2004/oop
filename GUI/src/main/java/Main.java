@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static boolean Move = false;
     public static void main(String[] args){
        Frame1 frame1 = new Frame1();
        Frame2 frame2 = new Frame2();
