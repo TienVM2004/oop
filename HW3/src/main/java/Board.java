@@ -16,6 +16,11 @@ public class Board {
     private boolean DEBUG = true;
     boolean committed;
 
+    // my own vars
+    private int[] wid;
+    private int[] hei;
+    private boolean lastGrid[][];
+
 
     // Here a few trivial methods are provided:
 
@@ -30,6 +35,20 @@ public class Board {
         committed = true;
 
         // YOUR CODE HERE
+        wid = new int[height];
+        hei = new int[width];
+        lastGrid = new boolean[width][height];
+        for(int i = 0 ; i < width; i ++) {
+            hei[i] = 0;
+        }
+        for(int i = 0 ; i < height; i ++) {
+            wid[i] = 0;
+        }
+        for(int i = 0 ; i < width; i ++) {
+            for(int j = 0; j < height; j ++) {
+                grid[i][j] = false;
+            }
+        }
     }
 
 
@@ -54,7 +73,11 @@ public class Board {
      * For an empty board this is 0.
      */
     public int getMaxHeight() {
-        return 0; // YOUR CODE HERE
+        int maxHei = 0;
+        for(int i = 0; i < width; i ++) {
+            if(hei[i]>maxHei) maxHei = hei[i];
+        }
+        return maxHei; // YOUR CODE HERE
     }
 
 
@@ -88,7 +111,8 @@ public class Board {
      * The height is 0 if the column contains no blocks.
      */
     public int getColumnHeight(int x) {
-        return 0; // YOUR CODE HERE
+        //updateHei();
+        return hei[x]; // YOUR CODE HERE
     }
 
 
@@ -97,7 +121,7 @@ public class Board {
      * the given row.
      */
     public int getRowWidth(int y) {
-        return 0; // YOUR CODE HERE
+        return wid[y]; // YOUR CODE HERE
     }
 
 
@@ -107,9 +131,43 @@ public class Board {
      * always return true.
      */
     public boolean getGrid(int x, int y) {
-        return false; // YOUR CODE HERE
+        if(x >= width || x < 0 || y >= height || y < 0) return true;
+        else return grid[x][y]; // YOUR CODE HERE
     }
 
+    //my own methods
+    public boolean[][] getBoard(){
+        return grid;
+    }
+    public void updateWid() {
+        int temp = 0;
+        //updating wid[]
+        for(int i = 0; i < height; i ++) {
+            temp = 0;
+            for(int j = 0; j < width; j ++) {
+                if(grid[j][i]) temp++;
+            }
+            //change result if a row is filled
+            wid[i] = temp;
+        }
+    }
+    public void updateHei(){
+        //updating hei[]
+        for(int i = 0; i < width; i++){
+            for(int j = height - 1; j >= 0; j --){
+                if(grid[i][j]) {
+                    hei[i] = j + 1;
+                    break;
+                }
+            }
+        }
+    }
+    public int[] getWid(){
+        return wid;
+    }
+    public int[] getHei(){
+        return hei;
+    }
 
     public static final int PLACE_OK = 0;
     public static final int PLACE_ROW_FILLED = 1;
@@ -137,6 +195,57 @@ public class Board {
         int result = PLACE_OK;
 
         // YOUR CODE HERE
+        //copy the last grid to be able to undo
+        for (int i = 0; i < grid.length; i++) {
+            System.arraycopy(grid[i], 0, lastGrid[i], 0, grid[i].length);
+        }
+        //taking the points out of the piece
+        TPoint[] points = piece.getBody();
+        int newX, newY, minX = 1000, maxX = 0, minY = 1000, maxY = 0;
+        for(TPoint p: points){
+            newX = p.x + x;
+            if(newX < minX) minX = newX;
+            if(newX > maxX) maxX = newX;
+            newY = p.y + y;
+            if(newY < minY) minY = newY;
+            if(newY > maxY) maxY = newY;
+            if(newX >= width || newY >= height || newX < 0 || newY < 0) {
+                result = PLACE_OUT_BOUNDS;
+                return result;
+            }
+            else if(grid[newX][newY]) {
+                result = PLACE_BAD;
+                return result;
+            }
+            else {
+                committed = false;
+                //the legal place for a block is now filled by declaring true
+                grid[newX][newY] = true;
+                //update wid[] and hei[], but cant write it's own function
+                //since if theres a row filled, we'll have no way to alert this function
+                int temp = 0;
+                //updating hei[]
+                for(int i = minX; i <= maxX; i++){
+                    for(int j = height - 1; j >= 0; j --){
+                        if(grid[i][j]) {
+                            hei[i] = j + 1;
+                            break;
+                        }
+                    }
+                }
+                //updating wid[]
+                for(int i = minY; i <= maxY; i ++) {
+                    temp = 0;
+                    for(int j = 0; j < width; j ++) {
+                        if(grid[j][i]) temp++;
+                    }
+                    //change result if a row is filled
+                    if(temp == width) result = PLACE_ROW_FILLED;
+                    wid[i] = temp;
+                }
+            }
+
+        }
 
         return result;
     }

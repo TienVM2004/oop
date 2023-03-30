@@ -122,7 +122,11 @@ amazing, i know right
      * rotated from the receiver.
      */
     public Piece computeNextRotation() {
-        TPoint[] nextRotate = this.body;
+        TPoint[] nextRotate = new TPoint[4];
+        for (int i = 0; i < 4; i++) {
+            nextRotate[i] = new TPoint(body[i].x, body[i].y);
+        }
+
         //offSet is used for the cases where the shape of tetris fall out of bound, like -1 -2 -3 ...
         int offSetX = 0;
         int offSetY = 0;
@@ -175,18 +179,24 @@ amazing, i know right
         // standard equals() technique 2
         // (null will be false)
         if (!(obj instanceof Piece)) return false;
-        Piece other = (Piece) obj;
+        //Piece other = (Piece) obj;
 
         // YOUR CODE HERE
         // i don't even know what im doing at this point
         TPoint[] OG = this.getBody(); //an array for the original
         TPoint[] ob = ((Piece) obj).getBody(); //and 1 for the copycat
-        for(TPoint t : OG){
-            if(!Arrays.asList(ob).contains(t)){
-                return false;
+        int find = 0;
+        for(int i = 0 ; i < 4 ; i++){
+            for(int j = 0 ; j < 4 ; j ++){
+
+                if(OG[i].equals(ob[j])){
+                    find++;
+                }
             }
         }
-        return true;
+
+        if(find==4) return true;
+        else return false;
     }
 
 

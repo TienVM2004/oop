@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
 
 /*
   Unit test for Piece class -- starter shell.
@@ -27,6 +28,7 @@ public class PieceTest {
 
     private Piece stickString2 = new Piece("0 0  2 0  3 0  1 0");
     private Piece SLString2 = new Piece("1 1  0 0  0 1  1 2");
+    private Piece stick = new Piece("0 0  0 1  0 2  0 3");
 
     @Before
     public void setUp() {
@@ -74,6 +76,8 @@ public class PieceTest {
     // Here are some sample tests to get you started
     @Test
     public void testSampleSize() {
+        assertEquals(true, stick.equals(new Piece("0 1  0 3  0 0  0 2")));
+        assertEquals(false, stick.equals(stick.computeNextRotation()));
         // Check size of pyr piece
         assertEquals(1, stick1.getWidth());
         assertEquals(4, stick1.getHeight());
@@ -113,10 +117,16 @@ public class PieceTest {
     public void testSampleSkirt() {
         // Note must use assertTrue(Arrays.equals(... as plain .equals does not work
         // right for arrays.
+        assertArrayEquals(new int[]{1, 0}, pyr2.getSkirt());
+        assertArrayEquals(new int[]{1, 0, 1}, pyr3.getSkirt());
+        assertEquals(false, pyr2.equals(pyr1));
         assertTrue(Arrays.equals(new int[]{0,0,0,0}, stick4.getSkirt()));
         assertTrue(Arrays.equals(new int[]{0}, stick1.getSkirt()));
         assertTrue(Arrays.equals(new int[]{0, 0}, LR1.getSkirt()));
         assertTrue(Arrays.equals(new int[]{0, 0}, LL1.getSkirt()));
+        assertArrayEquals(new int[]{1,1,0}, LL2.getSkirt());
+        assertArrayEquals(new int[]{0,2}, LL3.getSkirt());
+        assertArrayEquals(new int[]{0,0}, LL1.getSkirt());
         assertTrue(Arrays.equals(new int[]{0, 0, 1}, SR1.getSkirt()));
         assertTrue(Arrays.equals(new int[]{0, 1}, SL2.getSkirt()));
         assertTrue(Arrays.equals(new int[]{0, 0}, sq1.getSkirt()));
