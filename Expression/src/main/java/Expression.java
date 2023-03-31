@@ -1,9 +1,4 @@
-public class Expression {
-    public String toString(){
-
-        return null;
-    }
-    public int evaluate(){
-        return 0;
-    }
+public abstract class Expression {
+    public abstract String toString();
+    public abstract int evaluate();
 }

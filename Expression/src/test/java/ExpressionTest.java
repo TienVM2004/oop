@@ -50,5 +50,24 @@ class ExpressionTest {
         Expression theBigSquare = new Square(threeSquarePlusOne);
         assertEquals("(3^2 + 1)^2", theBigSquare.toString());
     }
+    public void testMultiplicationWithParenthesesToString() {
+        Expression one = new Numeral(1);
+        Expression threeSquare = new Square(new Numeral(3));
+        Expression threeSquareXOne = new Multiplication(threeSquare, one);
+        Expression theBigSquare = new Square(threeSquareXOne);
+        assertEquals("(3^2 * 1)^2", theBigSquare.toString());
+        assertEquals(81, theBigSquare.evaluate());
+
+    }
+
+    public void testSubtractionWithParenthesesToString() {
+        Expression one = new Numeral(1);
+        Expression threeSquare = new Square(new Numeral(3));
+        Expression threeSquareSOne = new Subtraction(threeSquare, one);
+        Expression theBigSquare = new Square(threeSquareSOne);
+        assertEquals("(3^2 - 1)^2", theBigSquare.toString());
+        assertEquals(64, theBigSquare.evaluate());
+
+    }
 
 }
