@@ -1,4 +1,4 @@
-public class Subtraction extends Expression{
+public class Subtraction implements Expression{
     Expression left;
     Expression right;
 

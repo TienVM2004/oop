@@ -1,4 +1,4 @@
-public abstract class Expression {
+interface Expression {
     public abstract String toString();
     public abstract int evaluate();
 }

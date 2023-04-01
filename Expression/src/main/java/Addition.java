@@ -1,4 +1,4 @@
-public class Addition extends Expression{
+public class Addition implements Expression{
     Expression left;
     Expression right;
 
