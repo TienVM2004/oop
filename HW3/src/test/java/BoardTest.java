@@ -36,9 +36,6 @@ public class BoardTest {
     public void testSample1() {
         //int[] wid = b.getWid();
         assertEquals(false, pyr2.equals(pyr5));
-        //assertArrayEquals(new boolean[]{true,true,true,false,false,false}, b.getBoard()[0]);
-        //assertArrayEquals(new boolean[]{false,true,false,false,false,false}, b.getBoard()[1]);
-        //assertArrayEquals(new boolean[]{false,false,false,false,false,false}, b.getBoard()[2]);
         assertEquals(1, b.getColumnHeight(0));
         assertEquals(2, b.getColumnHeight(1));
         assertEquals(2, b.getMaxHeight());
