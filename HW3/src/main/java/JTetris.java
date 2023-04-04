@@ -631,8 +631,8 @@ public class JTetris extends JComponent {
         row.add(speed);
 
         panel.add(row);
-		// when the slider changes, sync the timer to its value
-		speed.addChangeListener(e -> updateTimer());
+        // when the slider changes, sync the timer to its value
+        speed.addChangeListener(e -> updateTimer());
 
         testButton = new JCheckBox("Test sequence");
         panel.add(testButton);

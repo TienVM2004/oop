@@ -24,7 +24,6 @@ public class Board {
     private boolean lastGrid[][];
     private int[] lastWid;
     private int[] lastHei;
-    private int lastMaxHeight;
     private int maxHeight;
 
 
@@ -63,7 +62,6 @@ public class Board {
     }
 
     public void saveLastBoard(){
-        lastMaxHeight = maxHeight;
         System.arraycopy(wid, 0, lastWid, 0, height);
         System.arraycopy(hei, 0, lastHei, 0, width);
         for (int i = 0; i < grid.length; i ++) {
@@ -136,6 +134,7 @@ public class Board {
             if(hei[i]>maxHeight) maxHeight = hei[i];
         }
     }
+
 
 
 
@@ -266,32 +265,39 @@ public class Board {
         int result = PLACE_OK;
 
         // YOUR CODE HERE
-
+        //place will un-commit the board
+        committed = false;
+        //save for undo
         saveLastBoard();
+        //draw out the points
         TPoint[] points = piece.getBody();
         int newX, newY;
         for (TPoint p : points) {
+            //get new coordinates for points
             newX = p.x + x;
             newY = p.y + y;
+            //OUT OF BOUND
             if (newX >= width || newY >= height || newX < 0 || newY < 0) {
                 result = PLACE_OUT_BOUNDS;
                 return result;
-            } else if (grid[newX][newY]) {
+            }
+            //OVERLAP
+            if (grid[newX][newY]) {
                 result = PLACE_BAD;
                 return result;
             }
             //the legal place for a block is now filled by declaring true
             grid[newX][newY] = true;
+            //1 single block was placed so the wid increase
             wid[newY]++;
             if (wid[newY] == width) {
                 result = PLACE_ROW_FILLED;
             }
+            //the hei should also increase
             hei[newX] = Math.max(newY + 1, hei[newX]);
-            maxHeight = Math.max(maxHeight, hei[newX]);
-
         }
+        updateMaxHeight();
         sanityCheck();
-        committed = false;
         return result;
     }
 
@@ -301,40 +307,77 @@ public class Board {
      * things above down. Returns the number of rows cleared.
      */
     public int clearRows() {
-        int rowsCleared = 0;
-        // YOUR CODE HERE
+
 
         if(committed) {
+            committed=false;
             saveLastBoard();
-            committed =false;
         }
-        boolean isRowFilled = true;
-        for(int i = 0; i <= getMaxHeight(); i ++) {
-            isRowFilled = true;
-            for(int j = 0 ; j < width ; j ++) {
-                if(!grid[j][i]) {
-                    isRowFilled = false;
-                    continue;
-                }
-            }
-            if(isRowFilled) {
+
+        boolean isRowFilled = false;
+        int i = 0 , j = 1;
+        int rowsCleared = 0;
+
+        while( j < maxHeight) {
+
+            //if a wid[i] is equal to width that means theres a filled row
+            if(!isRowFilled && wid[i] == width) {
+                isRowFilled=true;
                 rowsCleared++;
-                //if row filled then move down all rows
-                for (int k = i; k <= getMaxHeight(); k++){
-                    for(int l = 0; l < width; l++){
-                        grid[l][k] = grid[l][k+1];
+            }
+            //counting how many rows are filled
+            while(isRowFilled && j< maxHeight && wid[j] == width){
+                rowsCleared++;
+                j++;
+            }
+
+            //filling the rows, including the top maxheight row
+            if(isRowFilled ) {
+                if (j < maxHeight) {
+                    for (int k = 0; k < width; k++) {
+                        grid[k][i] = grid[k][j];
+                        wid[i] = wid[j];
+                    }
+                } else {
+                    for (int k = 0; k < width; k++) {
+                        grid[k][i] = false;
+                        wid[i] = 0;
                     }
                 }
-                updateMaxHeight();updateWidth();updateHeight();
-                i--;
-                /*might there be a break here or something? */
+            }
+            i++; j++;
+        }
+
+        if(isRowFilled){
+            for (int k = i; k < maxHeight; k++) {
+                wid[k] = 0;
+                for (int l = 0; l < width; l++)
+                    grid[l][k] = false;
+
             }
         }
-        sanityCheck();
-        committed = false;
+
+
+
+        for(int k =0;k < hei.length;k++) {
+            hei[k] -= rowsCleared;
+
+            if(hei[k] > 0 && !grid[k][hei[k]-1]) {
+                hei[k] = 0;
+                for (int l = 0; l < maxHeight; l++ )
+                    if( grid[k][l])
+                        hei[k] = l+1;
+            }
+        }
+
+        maxHeight = 0;
+        for(int k = 0; k < width; k ++) {
+            if(hei[k]>maxHeight) maxHeight = hei[k];
+        }
 
         sanityCheck();
         return rowsCleared;
+
     }
 
 
@@ -349,20 +392,22 @@ public class Board {
         // YOUR CODE HERE
         if (!committed) {
 
-            maxHeight = lastMaxHeight;
             System.arraycopy( lastHei,0,hei,0, width);
 
             System.arraycopy( lastWid,0,wid,0, height);
             for (int i = 0; i < width; i++) {
                 System.arraycopy(lastGrid[i], 0, grid[i], 0, height);
             }
+            updateMaxHeight();
 
             committed =true;
             sanityCheck();
         }
     }
 
-
+    public boolean[][] getBoard(){
+        return grid;
+    }
     /**
      * Puts the board in the committed state.
      */
