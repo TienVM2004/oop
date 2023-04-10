@@ -1,4 +1,4 @@
-public class Square extends Expression{
+public class Square implements Expression{
     Expression ex;
     Square(Expression expression){
         ex = expression;

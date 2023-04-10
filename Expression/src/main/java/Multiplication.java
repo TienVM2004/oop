@@ -1,4 +1,4 @@
-public class Multiplication extends Expression{
+public class Multiplication implements Expression{
     Expression left;
     Expression right;
 

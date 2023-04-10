@@ -1,4 +1,4 @@
-public class Numeral extends Expression{
+public class Numeral implements Expression{
     private int value;
     Numeral(int val){
         value = val;
