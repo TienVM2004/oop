@@ -29,10 +29,14 @@ class SudokuTest {
                 new int[]{0,0,0,0,0,0,0,0,0},
 
         };
-        Sudoku test = new Sudoku(grid);
+        Sudoku test = null;
+        try {
+            test = new Sudoku(grid);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         assertEquals( grid1, test.toString());
     }
-    //@Timeout(5000)
     @Test
     public void TestSolve(){
         int[][] solution = new int[][]{
@@ -46,39 +50,28 @@ class SudokuTest {
                 {6,9,2,3,5,1,8,7,4},
                 {7,4,5,2,8,6,3,1,9}
         };
-        Sudoku test = new Sudoku(new int[][]{
-                {0,1,6,5,0,8,0,9,0},
-                {0,2,0,0,3,4,0,6,8},
-                {4,0,7,6,0,0,5,3,1},
-                {2,6,3,4,1,0,9,7,8},
-                {9,0,4,0,6,0,1,2,0},
-                {8,0,1,7,0,2,0,4,3},
-                {1,0,8,0,4,7,0,5,6},
-                {0,9,0,3,5,1,8,7,4},
-                {7,0,5,0,8,0,3,1,0}
-        });
+        Sudoku test = null;
+        try {
+            test = new Sudoku(new int[][]{
+                    {0,1,6,5,0,8,0,9,0},
+                    {0,2,0,0,3,4,0,6,8},
+                    {4,0,7,6,0,0,5,3,1},
+                    {2,6,3,4,1,0,9,7,8},
+                    {9,0,4,0,6,0,1,2,0},
+                    {8,0,1,7,0,2,0,4,3},
+                    {1,0,8,0,4,7,0,5,6},
+                    {0,9,0,3,5,1,8,7,4},
+                    {7,0,5,0,8,0,3,1,0}
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         Solver1 solver1 = new Solver1();
         test.setSolver(solver1);
         test.solve();
         String output = test.toString();
         System.out.println(output);
         assertTrue(Arrays.deepEquals(test.getGrid(), solution));
-//        Sudoku test = new Sudoku(new int[][]{
-//                {5,3,0,0,7,0,0,0,0},
-//                {6,5,0,1,9,5,0,0,0},
-//                {0,9,8,0,0,0,0,6,0},
-//                {8,0,0,0,6,0,0,0,3},
-//                {4,0,0,8,0,3,0,0,1},
-//                {7,0,0,0,2,0,0,0,6},
-//                {0,6,0,0,0,0,2,8,0},
-//                {0,0,0,4,1,9,0,0,5},
-//                {0,0,0,0,8,0,0,7,9}
-//        });
-//        Solver1 solver1 = new Solver1();
-//        test.setSolver(solver1);
-//        test.solve();
-//        String output = test.toString();
-//        System.out.println(output);
     }
 
 }

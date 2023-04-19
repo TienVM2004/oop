@@ -11,11 +11,18 @@ public class Main {
                 {0, 7, 3, 5, 0, 9, 0, 0, 1},
                 {4, 0, 0, 0, 0, 0, 6, 7, 9}
         };
-        Sudoku sudoku = new Sudoku(easyGrid);
+        Sudoku sudoku = null;
+        try {
+            sudoku = new Sudoku(easyGrid);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         sudoku.setSolver(new Solver1());
         sudoku.solve();
-        System.out.println(sudoku.toString());
         sudoku.printSteps();
+        System.out.println("Final result: ");
+        System.out.println(sudoku.toString());
+
         ////////////////////
 
         int[][] grid = new int[][]{
@@ -29,11 +36,17 @@ public class Main {
                 {0,4,0,0,5,0,0,3,6},
                 {7,0,3,0,1,8,0,0,0}
         };
-        Sudoku sudoku2 = new Sudoku(grid);
+        Sudoku sudoku2 = null;
+        try {
+            sudoku2 = new Sudoku(grid);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         sudoku2.setSolver(new Solver1());
         sudoku2.solve();
-        System.out.println(sudoku2.toString());
         sudoku2.printSteps();
+        System.out.println("Final result: ");
+        System.out.println(sudoku2.toString());
         ////////////////////
 
         int[][] grid2 = new int[][]{
@@ -47,10 +60,17 @@ public class Main {
                 {5,0,0,0,0,9,0,0,0},
                 {0,0,0,0,0,0,0,4,0}
         };
-        Sudoku sudoku3 = new Sudoku(grid2);
+        Sudoku sudoku3 = null;
+        try {
+            sudoku3 = new Sudoku(grid2);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         sudoku3.setSolver(new Solver1());
         sudoku3.solve();
-        System.out.println(sudoku3.toString());
         sudoku3.printSteps();
+        System.out.println("Final result: ");
+        System.out.println(sudoku3.toString());
+
     }
 }
