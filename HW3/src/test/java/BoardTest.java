@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 public class BoardTest {
-    Board b;
+    Board board;
     Board a;
     Piece pyr1, pyr2, pyr3, pyr4, s, sRotated,stick,square;
     Piece square1, square2, square3, square4;
@@ -14,13 +14,13 @@ public class BoardTest {
     Piece SR1, SR2, SR3, SR4;
     public void copy(){
         for (int i = 0; i < 3; i++) {
-            System.arraycopy(a.getBoard()[i], 0, b.getBoard()[i], 0, 6);
+            System.arraycopy(a.getBoard()[i], 0, board.getBoard()[i], 0, 6);
         }
     }
 
     @Before
     public void setUp() throws Exception {
-        b = new Board(3, 6);
+        board = new Board(3, 6);
         Board a = new Board(3,6);
 
         pyr1 = new Piece(Piece.PYRAMID_STR);
@@ -68,185 +68,171 @@ public class BoardTest {
         stick = new Piece(Piece.STICK_STR);
         square = new Piece(Piece.SQUARE_STR);
 
-        b.place(pyr1, 0, 0);
+        board.place(pyr1, 0, 0);
     }
 
     // Check the basic width/height/max after the one placement
     @Test
     public void testSample1() {
-        assertEquals(1, b.getColumnHeight(0));
-        assertEquals(2, b.getColumnHeight(1));
-        assertEquals(2, b.getMaxHeight());
-        assertEquals(3, b.getRowWidth(0));
-        assertEquals(1, b.getRowWidth(1));
-        assertEquals(0, b.getRowWidth(2));
+        assertEquals(1, board.getColumnHeight(0));
+        assertEquals(2, board.getColumnHeight(1));
+        assertEquals(2, board.getMaxHeight());
+        assertEquals(3, board.getRowWidth(0));
+        assertEquals(1, board.getRowWidth(1));
+        assertEquals(0, board.getRowWidth(2));
     }
 
     // Place sRotated into the board, then check some measures
     @Test
     public void testSample2() {
-        b.commit();
-        int result = b.place(sRotated, 1, 1);
+        board.commit();
+        int result = board.place(sRotated, 1, 1);
         assertEquals(Board.PLACE_OK, result);
-        assertEquals(1, b.getColumnHeight(0));
-        assertEquals(4, b.getColumnHeight(1));
-        assertEquals(3, b.getColumnHeight(2));
-        assertEquals(4, b.getMaxHeight());
+        assertEquals(1, board.getColumnHeight(0));
+        assertEquals(4, board.getColumnHeight(1));
+        assertEquals(3, board.getColumnHeight(2));
+        assertEquals(4, board.getMaxHeight());
     }
-
-    // Make  more tests, by putting together longer series of
-    // place, clearRows, undo, place ... checking a few col/row/max
-    // numbers that the board looks right after the operations.
-
-    // clearing out 3 rows
     @Test
     public void testSample3(){
-        b.commit();
-        int result = b.place(stick, 0, 1);
+        board.commit();
+        int result = board.place(stick, 0, 1);
         assertEquals(Board.PLACE_OK, result);
 
-        b.commit();
-        result = b.place(sRotated, 1, 1);
+        board.commit();
+        result = board.place(sRotated, 1, 1);
 
         assertEquals(Board.PLACE_ROW_FILLED, result);
-        assertEquals(5, b.getMaxHeight());
-        assertEquals(4,b.getColumnHeight(1));
-        assertEquals(3,b.getColumnHeight(2));
-        assertEquals(2,b.getRowWidth(3));
+        assertEquals(5, board.getMaxHeight());
+        assertEquals(4,board.getColumnHeight(1));
+        assertEquals(3,board.getColumnHeight(2));
+        assertEquals(2,board.getRowWidth(3));
 
-        int numRowsCleared = b.clearRows();
+        int numRowsCleared = board.clearRows();
         assertEquals(3,numRowsCleared);
-        assertEquals(1,b.getRowWidth(1));
+        assertEquals(1,board.getRowWidth(1));
 
-        b.undo();
+        board.undo();
 
-        assertEquals(5, b.getMaxHeight());
-        assertEquals(2,b.getColumnHeight(1));
-        assertEquals(1,b.getColumnHeight(2));
-        assertEquals(1,b.getRowWidth(4));
+        assertEquals(5, board.getMaxHeight());
+        assertEquals(2,board.getColumnHeight(1));
+        assertEquals(1,board.getColumnHeight(2));
+        assertEquals(1,board.getRowWidth(4));
 
         //checking board width and height
-        assertEquals(3, b.getWidth());
-        assertEquals(6, b.getHeight());
+        assertEquals(3, board.getWidth());
+        assertEquals(6, board.getHeight());
 
-    }
-
-    // clearing out 4 rows
-    @Test
+    }@Test
     public void testSample4(){
-        assertTrue(b.getGrid(1, 1));
+        assertTrue(board.getGrid(1, 1));
         int result;
-        b.undo();
+        board.undo();
+        result = board.place(stick, 2, 0);
 
-
-        result = b.place(stick, 2, 0);
-        b.commit();
+        board.commit();
 
         assertEquals(Board.PLACE_OK, result);
-        assertEquals(4, b.getMaxHeight());
+        assertEquals(4, board.getMaxHeight());
 
-        int numRowsCleared = b.clearRows();
+        int numRowsCleared = board.clearRows();
 
         assertEquals(0,numRowsCleared);
-        assertEquals(4, b.getMaxHeight());
-        assertEquals(0,b.getColumnHeight(1));
-        assertEquals(4,b.getColumnHeight(2));
-        assertEquals(1,b.getRowWidth(1));
+        assertEquals(4, board.getMaxHeight());
+        assertEquals(0,board.getColumnHeight(1));
+        assertEquals(4,board.getColumnHeight(2));
+        assertEquals(1,board.getRowWidth(1));
 
-        assertTrue(b.getGrid(78, 56));
+        assertTrue(board.getGrid(78, 56));
 
-        b.commit();
-        result = b.place(square, 0, 0);
-        b.commit();
-
-        assertEquals(Board.PLACE_ROW_FILLED, result);
-
-        result = b.place(square, 0, 2);
-        b.commit();
+        board.commit();
+        result = board.place(square, 0, 0);
+        board.commit();
 
         assertEquals(Board.PLACE_ROW_FILLED, result);
 
-        result = b.place(square, 0, 4);
-        b.commit();
+        result = board.place(square, 0, 2);
+        board.commit();
+
+        assertEquals(Board.PLACE_ROW_FILLED, result);
+
+        result = board.place(square, 0, 4);
+        board.commit();
 
         assertEquals(Board.PLACE_OK, result);
 
     }
-
-    // clearing rows with gaps in between
-    // verifying dropHeights
-
     @Test
     public void testSample5(){
-        assertEquals(3,b.getRowWidth(0));
-        assertEquals(1,b.clearRows());
+        assertEquals(3,board.getRowWidth(0));
+        assertEquals(1,board.clearRows());
 
-        b.commit();
+        board.commit();
 
-        assertEquals(1,b.getRowWidth(0));
+        assertEquals(1,board.getRowWidth(0));
 
-        int result = b.place(SR1, 0, 0);
-        int rowsCleared = b.clearRows();
-        b.commit();
+        int result = board.place(SR1, 0, 0);
+        int rowsCleared = board.clearRows();
+        board.commit();
 
         assertEquals(Board.PLACE_BAD, result);
         assertEquals(0,rowsCleared);
-        assertEquals(1,b.getMaxHeight());
+        assertEquals(1,board.getMaxHeight());
 
-        result = b.place(sRotated, 1, 1);
-        assertEquals(4,b.getMaxHeight());
-        rowsCleared = b.clearRows();
-        b.commit();
+        result = board.place(sRotated, 1, 1);
+        assertEquals(4,board.getMaxHeight());
+        rowsCleared = board.clearRows();
+        board.commit();
 
         assertEquals(Board.PLACE_OK, result);
         assertEquals(0,rowsCleared);
-        assertEquals(4,b.getMaxHeight());
+        assertEquals(4,board.getMaxHeight());
 
-        result = b.place(sRotated, 1, 1);
-        rowsCleared = b.clearRows();
+        result = board.place(sRotated, 1, 1);
+        rowsCleared = board.clearRows();
 
         assertEquals(Board.PLACE_BAD, result);
         assertEquals(0,rowsCleared);
-        assertEquals(4,b.dropHeight(square, 1));
+        assertEquals(4,board.dropHeight(square, 1));
 
 
-        assertTrue(!b.getGrid(0, 1));
-        assertTrue(b.getGrid(1, 3));
+        assertTrue(!board.getGrid(0, 1));
+        assertTrue(board.getGrid(1, 3));
 
 
-        assertEquals(3,b.dropHeight(sRotated, 1));
-        assertEquals(2,b.getRowWidth(0));
-        assertEquals(1,b.getRowWidth(3));
-        assertEquals(4,b.getColumnHeight(1));
+        assertEquals(3,board.dropHeight(sRotated, 1));
+        assertEquals(2,board.getRowWidth(0));
+        assertEquals(1,board.getRowWidth(3));
+        assertEquals(4,board.getColumnHeight(1));
     }
     @Test
     public void testSample6(){
-        assertEquals(3, b.getWidth());
-        assertEquals(6, b.getHeight());
-        b.commit();
+        assertEquals(3, board.getWidth());
+        assertEquals(6, board.getHeight());
+        board.commit();
 
 
 
-        int result = b.place(square, 0, 1);
+        int result = board.place(square, 0, 1);
 
         assertEquals(Board.PLACE_BAD, result);
-        assertEquals(1,b.dropHeight(sRotated, 1));
-        assertEquals(1,b.getRowWidth(2));
-        assertEquals(3,b.dropHeight(square, 0));
-        assertEquals(2,b.dropHeight(square.computeNextRotation(), 1));
-        b.undo();
+        assertEquals(1,board.dropHeight(sRotated, 1));
+        assertEquals(1,board.getRowWidth(2));
+        assertEquals(3,board.dropHeight(square, 0));
+        assertEquals(2,board.dropHeight(square.computeNextRotation(), 1));
+        board.undo();
 
-        assertEquals(2,b.getMaxHeight());
+        assertEquals(2,board.getMaxHeight());
 
-        result = b.place(square.computeNextRotation().computeNextRotation(), 0, 2);
-
-        assertEquals(Board.PLACE_OK, result);
-
-        b.commit();
-        result = b.place(square.computeNextRotation().computeNextRotation(), 0, 4);
+        result = board.place(square.computeNextRotation().computeNextRotation(), 0, 2);
 
         assertEquals(Board.PLACE_OK, result);
-        assertEquals(1,b.clearRows());
+
+        board.commit();
+        result = board.place(square.computeNextRotation().computeNextRotation(), 0, 4);
+
+        assertEquals(Board.PLACE_OK, result);
+        assertEquals(1,board.clearRows());
 
     }
 

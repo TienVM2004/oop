@@ -17,6 +17,7 @@ public class PieceTest {
     // For example, the code below sets up some pyramid and s pieces
     // in instance variables that can be used in tests.
 
+    Piece[] pieces = Piece.getPieces();
     private Piece stick1, stick2, stick3, stick4;
     private Piece LR1, LR2, LR3, LR4;
     private Piece LL1, LL2, LL3, LL4;
@@ -32,6 +33,7 @@ public class PieceTest {
 
     @Before
     public void setUp() {
+        Piece[] pieces = Piece.getPieces();
         stick1 = new Piece(Piece.STICK_STR);
         stick2 = stick1.computeNextRotation();
         stick3 = stick2.computeNextRotation();
@@ -142,5 +144,19 @@ public class PieceTest {
     public void testEquals() {
         assertEquals( true, stick2.equals(stickString2));
         assertEquals( true, SL2.equals(SLString2));
+    }
+    @Test
+    public void testFastRotation() {
+
+        //check 1 or 2 rotations
+        assertTrue(stick1.equals(pieces[Piece.STICK]));
+        assertTrue(stick2.equals(pieces[Piece.STICK].fastRotation()));
+        assertTrue(stick1.equals(pieces[Piece.STICK].fastRotation().fastRotation()));
+
+        //rotate more than 4 times to check rotations are working correctly
+        assertTrue(LL1.equals(pieces[Piece.L2].fastRotation().fastRotation().fastRotation().fastRotation()));
+        assertTrue(sRotated.equals(pieces[Piece.S1].fastRotation().fastRotation().fastRotation().fastRotation().fastRotation()));
+        assertTrue(pyr3.equals(pieces[Piece.PYRAMID].fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation()));
+        assertTrue(sq2.equals(pieces[Piece.SQUARE].fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation()));
     }
 }
