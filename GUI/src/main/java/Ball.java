@@ -43,14 +43,14 @@ public class Ball extends JComponent {
         g.setColor(Color.BLACK);
         g.fillOval(x, y, radius, radius);
     }
-    public void move() {
+    public void move(int wid, int hei) {
         if(MoveOrNot.Move) {
             x += dx;
             y += dy;
-            if ((x < 500 && x > 0) && (y > 500 - 2 * radius || y < 0)) {
+            if ((x < wid && x > 0) && (y > wid - 2 * radius || y < 0)) {
                 changeY();
                 notifi();
-            } else if ((x > 500 - radius || x < 0) && (y < 500 && y > 0)) {
+            } else if ((x > hei - radius || x < 0) && (y < hei && y > 0)) {
                 changeX();
                 notifi();
             }

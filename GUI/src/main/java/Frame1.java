@@ -9,11 +9,11 @@ public class Frame1 extends Observer{
     private Ball ball;
 
     //constructor
-    Frame1(){
+    Frame1(int wid, int hei){
         ball = new Ball(30, 2, 1);
         frame1 = new JFrame("lmaolmaolmao");
-        width = 500;
-        height = 500;
+        width = wid;
+        height = hei;
         frame1.setSize(width, height);
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame1.add(ball);
@@ -28,7 +28,7 @@ public class Frame1 extends Observer{
         return height;
     }
     public void moveBall(){
-        ball.move();
+        ball.move(width, height);
     }
     public Ball getBall(){
         return ball;

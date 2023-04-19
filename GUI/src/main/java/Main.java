@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args){
-       Frame1 frame1 = new Frame1();
+       Frame1 frame1 = new Frame1(500, 500);
        Frame2 frame2 = new Frame2();
        frame1.getBall().register(frame2);
        frame1.go();
