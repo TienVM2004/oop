@@ -14,11 +14,11 @@ class NumListTest {
             numList.add(8);
             numList.add(9);
             numList.add(2);
-            numList.add(1);
+            numList.add(-100);
 
             numList.setQuickSort();
             numList.setOrder();
-            assertArrayEquals(new double[]{1,2,3,4,5,7,8,9}, numList.getList());
+            assertArrayEquals(new double[]{-100,2,3,4,5,7,8,9}, numList.getList());
         }
 
     @Test
