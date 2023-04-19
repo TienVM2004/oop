@@ -10,8 +10,9 @@ public class Sudoku {
 
     Sudoku(int[][] grid) throws Exception {
         if(grid.length != size || grid[0].length != size) {
-            throw new Exception("that table wont suffice my man");
+            throw new Exception("Initializing Sudoku object failed" + grid.length + ' ' + grid[0].length);
         }
+        solver = new Solver1();
         this.grid = grid;
         steps = new boolean[size][size];
         for(int i = 0; i < size; i++) {
@@ -97,17 +98,18 @@ public class Sudoku {
         int n = 0;
         int[] arr = new int[len];
 
-        for (int i = 0; i < len; i ++) {
+        for (int i=0; i<str.length(); i++) {
             if (Character.isDigit(str.charAt(i))) {
                 arr[n] = Integer.parseInt(str.substring(i, i+1));
-
                 n++;
             }
-            else {
-                throw new Exception("Found something not an integer in sudoku bruh");
+            else if(str.charAt(i) != ' ') {
+                throw new Exception("something not a number in sudoku detected");
             }
         }
+        int[] result = new int[n];
+        System.arraycopy(arr, 0, result, 0, n);
 
-        return arr;
+        return result;
     }
 }

@@ -70,8 +70,56 @@ class SudokuTest {
         test.setSolver(solver1);
         test.solve();
         String output = test.toString();
-        System.out.println(output);
+        System.out.println(test);
         assertTrue(Arrays.deepEquals(test.getGrid(), solution));
+    }
+    @Test
+    public void TestText(){
+        int[][] Grid = null;
+        try {
+            Grid = Sudoku.stringsToGrid(
+                    "3 7 0 0 0 0 0 8 0",
+                    "0 0 1 0 9 3 0 0 0",
+                    "0 4 0 7 8 0 0 0 3",
+                    "0 9 3 8 0 0 0 1 2",
+                    "0 0 0 0 4 0 0 0 0",
+                    "5 2 0 0 0 6 7 9 0",
+                    "6 0 0 0 2 1 0 4 0",
+                    "0 0 0 5 3 0 9 0 0",
+                    "0 3 0 0 0 0 0 5 1");
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        Sudoku sudoku4;
+        try {
+            sudoku4 = new Sudoku(Grid);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        sudoku4.solve();
+        System.out.println(sudoku4);
+        ////////////////
+        int[][] sudokuArray = {
+                {3, 7, 0, 0, 0, 0, 0, 8, 0},
+                {0, 0, 1, 0, 9, 3, 0, 0, 0},
+                {0, 4, 0, 7, 8, 0, 0, 0, 3},
+                {0, 9, 3, 8, 0, 0, 0, 1, 2},
+                {0, 0, 0, 0, 4, 0, 0, 0, 0},
+                {5, 2, 0, 0, 0, 6, 7, 9, 0},
+                {6, 0, 0, 0, 2, 1, 0, 4, 0},
+                {0, 0, 0, 5, 3, 0, 9, 0, 0},
+                {0, 3, 0, 0, 0, 0, 0, 5, 1}
+        };
+        Sudoku sud;
+        try {
+            sud = new Sudoku(sudokuArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        sud.solve();
+
+        assertEquals(sud.toString(), sudoku4.toString());
     }
 
 }
