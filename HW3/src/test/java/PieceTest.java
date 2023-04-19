@@ -148,15 +148,14 @@ public class PieceTest {
     @Test
     public void testFastRotation() {
 
-        //check 1 or 2 rotations
-        assertTrue(stick1.equals(pieces[Piece.STICK]));
-        assertTrue(stick2.equals(pieces[Piece.STICK].fastRotation()));
-        assertTrue(stick1.equals(pieces[Piece.STICK].fastRotation().fastRotation()));
+        assertTrue(sq1.equals(pieces[Piece.SQUARE]));
+        assertTrue(sq2.equals(pieces[Piece.SQUARE].fastRotation()));
+        assertTrue(sq1.equals(pieces[Piece.SQUARE].fastRotation().fastRotation()));
+        assertTrue(SL1.equals(pieces[Piece.S2].fastRotation().fastRotation()));
+        assertTrue(SR1.equals(pieces[Piece.S1].fastRotation().fastRotation()));
 
-        //rotate more than 4 times to check rotations are working correctly
-        assertTrue(LL1.equals(pieces[Piece.L2].fastRotation().fastRotation().fastRotation().fastRotation()));
-        assertTrue(sRotated.equals(pieces[Piece.S1].fastRotation().fastRotation().fastRotation().fastRotation().fastRotation()));
-        assertTrue(pyr3.equals(pieces[Piece.PYRAMID].fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation()));
+        assertTrue(stick1.equals(pieces[Piece.STICK].fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation()));
+
         assertTrue(sq2.equals(pieces[Piece.SQUARE].fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation().fastRotation()));
     }
 }
