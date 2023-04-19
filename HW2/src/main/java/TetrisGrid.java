@@ -18,8 +18,8 @@ public class TetrisGrid {
 	 * Does row-clearing on the grid (see handout).
 	 */
 	public void clearRows() {
-		int x = tetGrid.length; //x=2
-		int y = tetGrid[0].length;//y=3
+		int x = tetGrid.length;
+		int y = tetGrid[0].length;
 		for(int i=0;i<y;i++){
 			for(int j=0;j<x;j++){
 				if(tetGrid[j][i]==false) break;

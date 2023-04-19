@@ -19,7 +19,6 @@ public class Shape {
 
         double x, y;
         String[] Coors = s.split("\\s+");
-
         for(int i=0;i<Coors.length-1;i+=2){
             x = Double.parseDouble(Coors[i]);
             y = Double.parseDouble(Coors[i+1]);
@@ -30,7 +29,7 @@ public class Shape {
         x = Double.parseDouble(Coors[0]);
         y = Double.parseDouble(Coors[1]);
         temp2 = new Point(x,y);
-        addNoRecalculate(temp2);
+        addNoRecalculate(temp2); //no recalculate
     }
 
 
@@ -64,7 +63,6 @@ public class Shape {
                 radius = temp;
                 min = temp;
             }
-            //System.out.println(point.getX()+" "+point.getY()+" heart "+Heart.getX()+" "+Heart.getY()+" "+temp+" "+radius);
         }
     }
 
@@ -104,7 +102,7 @@ public class Shape {
             bigger = a;
             smaller = b;
         }
-        else{
+        else {
             bigger = b;
             smaller = a;
         }
@@ -114,5 +112,6 @@ public class Shape {
         else return 0;
     }
 
-}
+        //return 0;
+    }
 
