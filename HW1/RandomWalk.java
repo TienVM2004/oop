@@ -1,7 +1,7 @@
 public class RandomWalk {
 
     public static void main(String[] args) {
-        int n = Integer.parseInt(args[0]);
+        int n = Integer.parseInt("9");
         StdDraw.setScale(-n - 0.5, n + 0.5);
         StdDraw.clear(StdDraw.GRAY);
         StdDraw.enableDoubleBuffering();
