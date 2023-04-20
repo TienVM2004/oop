@@ -6,6 +6,13 @@ public class PictureProxy extends Graphic {
     private Point position;
     private Picture picture;
 
+
+    PictureProxy(String name, Dimension ext, Point point) {
+        fileName = name;
+        extent = ext;
+        position = point;
+    }
+
     public void draw(Point position){
 
     }
@@ -29,7 +36,7 @@ public class PictureProxy extends Graphic {
 
     }
     protected Picture getPicture(){
-        picture = new Picture();
+        picture = new Picture(fileName,extent,position);
         return picture;
     }
 }
