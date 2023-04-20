@@ -1,6 +1,9 @@
 public class NumList {
     private SortAlgorithm sortAlgo;
     private double[] listOfNums;
+    NumList() {
+        sortAlgo = new BubbleSort();
+    }
 
     public int add(double num){
         if(listOfNums == null) {
